@@ -1,0 +1,100 @@
+/* fx.css — animaciones inspiradas en untold.site (las activa fx.js).
+   Regla: el elemento que recibe el hover o el toque nunca se desplaza; se anima un hijo o un pseudoelemento.
+   Todo queda desactivado con prefers-reduced-motion (al final del archivo). */
+
+/* ---------- P1 · grano animado (2 s, 6 pasos, como untold) ---------- */
+.grain { inset: -50%; width: 200%; height: 200%; animation: fx-grain 2s steps(6) infinite; will-change: transform; }
+@keyframes fx-grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  30% { transform: translate(3%, -15%); }
+  50% { transform: translate(12%, 9%); }
+  70% { transform: translate(9%, 4%); }
+  90% { transform: translate(-1%, 7%); }
+}
+@media (max-width: 899px) { .grain { opacity: .24; } }
+/* En táctil (celulares) el grano queda quieto y sin mezcla multiply: recomponer una capa de pantalla
+   completa 3 veces por segundo gasta batería sin aportar en una pantalla pequeña. */
+@media (pointer: coarse) { .grain { inset: 0; width: auto; height: auto; animation: none; will-change: auto; mix-blend-mode: normal; opacity: .14; } }
+
+/* ---------- P2 · botones: barrido tinta + caret que acompaña el borde ---------- */
+.fx-btn { position: relative; isolation: isolate; overflow: hidden; }
+.fx-fill { position: absolute; inset: 0; z-index: -1; background: var(--ink); transform: scaleX(0); transform-origin: left center; transition: transform .5s cubic-bezier(.77, 0, .175, 1); pointer-events: none; }
+.fx-bcaret { position: absolute; top: -20%; left: 0; width: 1px; height: 140%; background: var(--orange); opacity: 0; pointer-events: none; transition: left .53s cubic-bezier(.77, 0, .175, 1), opacity .2s; }
+@media (hover: hover) and (pointer: fine) {
+  .fx-btn:not(:disabled):hover .fx-fill { transform: scaleX(1); }
+  .fx-btn:not(:disabled):hover .fx-bcaret { left: calc(100% - 1px); opacity: 1; animation: fx-blink 1s step-start .55s infinite; }
+  .btn-o.fx-btn:not(:disabled):hover, .btn-line.fx-btn:not(:disabled):hover, .vbtn.fx-btn:not(:disabled):hover, .chip.fx-btn:not(.on):hover { color: var(--paper); background: transparent; }
+  .btn-o.fx-btn:not(:disabled):hover { background: var(--orange); }
+  .btn-o.fx-btn, .btn-line.fx-btn, .vbtn.fx-btn, .chip.fx-btn { transition: color .5s cubic-bezier(.77, 0, .175, 1), background .2s; }
+}
+/* táctil: el relleno aparece rápido al tocar, sin caret */
+.fx-press .fx-fill { transform: scaleX(1); transition-duration: .18s; }
+.btn-o.fx-press, .btn-line.fx-press, .vbtn.fx-press, .chip.fx-press:not(.on) { color: var(--paper); }
+.chip.on .fx-fill { display: none; }
+@keyframes fx-blink { 50% { opacity: 0; } }
+
+/* ---------- P3 · títulos que se escriben + palabra rotativa ---------- */
+.fx-pre-type { visibility: hidden; }
+.fx-caret { transform: scaleX(.6); transform-origin: left; }
+.fx-rotator { font-size: clamp(30px, 4.4vw, 64px); line-height: 1; letter-spacing: -.035em; margin: 0 0 28px; }
+.fx-rotator [data-fx-words] { color: var(--orange-ink, var(--orange)); }
+@media (max-width: 899px) { .fx-rotator { font-size: clamp(28px, 8.4vw, 44px); margin-bottom: 18px; } }
+
+/* ---------- P4 · resaltado tinta que se dibuja ---------- */
+mark.fx-mark { background: linear-gradient(var(--ink), var(--ink)) no-repeat 0 0 / 0% 100%; color: var(--ink); transition: background-size .6s cubic-bezier(.77, 0, .175, 1), color .3s .25s; }
+mark.fx-mark.fx-in { background-size: 100% 100%; color: var(--paper); }
+
+/* ---------- P5 · grupos que caen (la animación es WAAPI; esto solo los oculta antes de entrar) ---------- */
+.fx-pre-drop > * { opacity: 0; }
+
+/* ---------- P6 · ilustraciones ligadas al scroll: fx.js escribe el trazo en línea ---------- */
+.fx-scrub :is(path, circle, rect, line, ellipse, polyline, text) { transition: none !important; }
+.fx-scrub text { opacity: 1; }
+
+/* ---------- P8 · movimiento en reposo (solo con .fx-idle, que fx.js pone cuando está en pantalla) ---------- */
+.fx-idle .stack-card { animation: fx-wander-a 9s ease-in-out infinite; }
+.fx-idle .stack-card:nth-child(2) { animation-name: fx-wander-b; animation-duration: 11s; }
+.fx-idle .stack-card:nth-child(3) { animation-name: fx-wander-c; animation-duration: 13s; }
+.fx-idle .note.shown { animation: fx-sway 6s ease-in-out infinite; }
+.fx-idle .note.shown:nth-of-type(even) { animation-duration: 7.5s; animation-direction: reverse; }
+.fx-idle .next-title i, .fx-idle .ch-nav i { animation: fx-nudge 3s cubic-bezier(.64, .1, 0, 1) infinite; }
+.next-ch:hover .next-title i { animation: none; }
+@keyframes fx-wander-a { 0%, 100% { translate: 0 0; } 25% { translate: 4% 0; } 50% { translate: 0 4%; } 75% { translate: -4% 0; } }
+@keyframes fx-wander-b { 0%, 100% { translate: 0 0; } 20% { translate: 3% -2%; } 50% { translate: -2% 4%; } 80% { translate: 4% 1%; } }
+@keyframes fx-wander-c { 0%, 100% { translate: 0 0; } 30% { translate: -4% 3%; } 60% { translate: 2% -3%; } 90% { translate: -1% 2%; } }
+@keyframes fx-sway { 0%, 100% { rotate: 0deg; } 50% { rotate: .8deg; } }
+@keyframes fx-nudge { 0%, 100% { translate: -3px 0; } 50% { translate: 3px 0; } }
+
+/* ---------- P9 · encabezado ---------- */
+/* Menú de usuario: se descubre de arriba abajo; los ítems llegan escalonados. */
+.user-menu:not([hidden]) { animation: fx-um-in .45s cubic-bezier(.64, .1, 0, 1); }
+.user-menu:not([hidden]) > * { animation: fx-um-item .4s cubic-bezier(.23, 1, .32, 1) backwards; }
+.user-menu:not([hidden]) > :nth-child(2) { animation-delay: .04s; }
+.user-menu:not([hidden]) > :nth-child(3) { animation-delay: .08s; }
+.user-menu:not([hidden]) > :nth-child(4) { animation-delay: .12s; }
+@keyframes fx-um-in { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes fx-um-item { from { opacity: 0; translate: 0 8px; } }
+/* Barra inferior (móvil): una píldora naranja se desliza a la pestaña activa. */
+.fx-pill { display: none; }
+@media (max-width: 899px) {
+  .tabbar { isolation: isolate; }
+  .tabbar.fx-has-pill .fx-pill { display: block; position: absolute; left: 0; top: 0; height: 3px; border-radius: 0 0 3px 3px; background: var(--orange); pointer-events: none; transition: transform .45s cubic-bezier(.23, 1, .32, 1); }
+  .tabbar.fx-has-pill a.on::after { opacity: 0; }
+  .tabbar a svg { transition: transform .25s cubic-bezier(.23, 1, .32, 1); }
+  .tabbar a:active svg { transform: scale(.86); }
+  .tabbar a.on svg { animation: fx-tab-pop .45s cubic-bezier(.23, 1, .32, 1); }
+}
+@keyframes fx-tab-pop { 40% { transform: translateY(-3px) scale(1.08); } }
+
+/* ---------- P10 · estela de cursor (solo escritorio; fx.js crea el canvas) ---------- */
+.fx-trail { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 99; pointer-events: none !important; }
+
+/* ---------- movimiento reducido: nada de lo anterior ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .grain { inset: 0; width: auto; height: auto; animation: none; }
+  .fx-pre-type { visibility: visible; }
+  .fx-pre-drop > * { opacity: 1; }
+  .fx-trail { display: none; }
+  mark.fx-mark { background-size: 100% 100%; color: var(--paper); }
+}

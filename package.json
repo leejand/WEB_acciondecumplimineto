@@ -1,0 +1,21 @@
+{
+  "name": "accion-de-cumplimiento",
+  "version": "1.0.0",
+  "description": "Exposición interactiva: la acción de cumplimiento (art. 87 CP, Ley 393 de 1997 y art. 146 CPACA)",
+  "main": "server.js",
+  "private": true,
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test \"tests/unit/*.test.mjs\"",
+    "test:e2e": "node --disable-warning=ExperimentalWarning --test --test-timeout=180000 \"tests/e2e/flujo.test.mjs\"",
+    "test:stress": "node --disable-warning=ExperimentalWarning tests/stress.mjs",
+    "test:e2e:carga": "node --disable-warning=ExperimentalWarning --test --test-timeout=1800000 \"tests/e2e/carga.test.mjs\""
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}

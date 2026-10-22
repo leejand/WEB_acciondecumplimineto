@@ -1,0 +1,15 @@
+# Base de datos local: contiene datos de estudiantes y el hash del administrador
+data/
+
+# Dependencias y artefactos de pruebas
+node_modules/
+test-results/
+playwright-report/
+tests/.tmp/
+
+# Configuración local de Claude Code
+.claude/settings.local.json
+
+# Sistema
+.DS_Store
+Thumbs.db

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F5F3EB">
+  <title>Acción de cumplimiento · Guía interactiva</title>
+  <meta name="description" content="La acción de cumplimiento en Colombia (art. 87 CP, Ley 393 de 1997 y art. 146 CPACA): guía interactiva y evaluación.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23FF5623'/%3E%3Cpath d='M32 14 L36 28 L50 32 L36 36 L32 50 L28 36 L14 32 L28 28 Z' fill='%23232428'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Caveat:wght@500;600&family=Courier+Prime:wght@400;700&family=Jost:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/fx.css">
+</head>
+<body>
+  <a class="skip-link" href="#view">Saltar al contenido</a>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="topbar" id="topbar" hidden>
+    <a href="#/inicio" class="logo" aria-label="Cumplir · inicio">cumplir<i class="caret"></i></a>
+    <span class="top-chapter" id="topChapter" aria-hidden="true"></span>
+    <!-- Una sola navegación: en escritorio va en el encabezado; en móvil es la barra inferior de pestañas. -->
+    <nav class="tabbar" id="tabbar" aria-label="Capítulos"></nav>
+    <div class="user">
+      <button class="user-btn" id="userBtn" aria-expanded="false" aria-controls="userMenu">
+        <span class="avatar" id="userInitials"></span><span class="user-first" id="userFirst"></span>
+        <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9 L12 15 L18 9"/></svg>
+      </button>
+      <div class="user-menu" id="userMenu" hidden></div>
+    </div>
+    <div class="read-progress" aria-hidden="true"><i id="readProgress"></i></div>
+  </header>
+
+  <div class="curtain" id="curtain" aria-hidden="true"><span class="curtain-label" id="curtainLabel"></span></div>
+  <div class="cursor" id="cursor" aria-hidden="true"><span id="cursorLabel"></span></div>
+
+  <main id="view" tabindex="-1"></main>
+
+  <button class="to-top" id="toTop" aria-label="Volver arriba" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15 L12 9 L18 15"/></svg></button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="/js/content.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/fx.js" defer></script>
+</body>
+</html>
